@@ -23,6 +23,21 @@ app.get("/jobCategories", (req, res) => {
   res.json(categories);
 });
 
+// Get all jobs in a given city (sent in the querystring)
+app.get("/cityJobs", (req, res) => {
+  // Create an empty array to hold all the jobs with the given city
+  let jobs = [];
+
+  // For each job in the list
+  for (let j in jobsList) {
+    // It the job's title has the city name in it, push it to the array
+    if (jobsList[j].title.includes(req.query.city)) jobs.push(j);
+  }
+
+  // Sends a json object containing each job with the given city
+  res.json({ jobs: jobs });
+});
+
 // Get all the jobs with a given category (sent as parameter)
 app.get("/:category", (req, res) => {
   // Create an empty array to hold all the jobs with the given category
@@ -37,10 +52,5 @@ app.get("/:category", (req, res) => {
   // Sends a json object containing each job with the given category
   res.json({ jobs: jobs });
 });
-
-// Get all jobs in a given city (sent in the querystring)
-// app.get("/cityJobs", (req, res) => {
-//   res.json(jobsList);
-// });
 
 app.listen(2000);
